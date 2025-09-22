@@ -6,8 +6,7 @@
 #define DX 7
 #define DY 3
 
-int main(int argc, char *argv[]) {
-        int res = 0;
+int main(int argc, char *argv[]) { //uihpiubpiuobpppppppppppppppppppppppppppppgyictyvs
         WINDOW *frame, *win;
         int c = 0;
         if (argc != 2) {
@@ -24,8 +23,8 @@ int main(int argc, char *argv[]) {
         setlocale(LC_ALL, "");
         if (!initscr()) {
                 fprintf(stderr, "Error initialising ncurses.\n");
-                res = 1;
-                goto ERR_FILE;
+                fclose(file);
+                exit(1);
         }
         noecho();
         cbreak();
@@ -37,43 +36,80 @@ int main(int argc, char *argv[]) {
 
         win = newwin(LINES - 2*DY - 2, COLS - 2*DX-2, DY+1, DX+1);
         keypad(win, TRUE);
-        scrollok(win, TRUE);
+        scrollok(win, FALSE);
+        char buf[COLS - 2*DX-1];
+        memset(buf, ' ', COLS - 2*DX-3);
+        buf[COLS - 2*DX-3] = '\n';
+        buf[COLS - 2*DX-2] = 0;
         char *line = NULL;
         size_t size = 0;
         int read;
-        int i = 0;
+        int arr_size = 1;
+        int *arr = NULL;
+        size_t file_size = 0;
         while (1) {
                 if ((read = getline(&line, &size, file)) == -1) {
                         break;
                 }
+                arr = realloc(arr, sizeof(int) * arr_size);
+                arr[arr_size - 1] = file_size;
+                file_size += read;
                 if (read > COLS - 2*DX-2) {
                         line[COLS - 2*DX-3] = '\n';
                         line[COLS - 2*DX-2] = 0;
                 }
-                wprintw(win, "%s", line);
-                i++;
-                if (i >= LINES - 2*DY - 3) {
-                        break;
-                }
-        }
-        while((c = wgetch(win)) != 27) {
-                if (c == ' ') {
-                        if ((read = getline(&line, &size, file)) == -1) {
-                                scrollok(win, FALSE);
-                                continue;
-                        }
-                        if (read > COLS - 2*DX-2) {
-                                line[COLS - 2*DX-3] = '\n';
-                                line[COLS - 2*DX-2] = 0;
-                        }
+                if (arr_size < LINES - 2*DY - 1) {
                         wprintw(win, "%s", line);
                 }
+                arr_size++;
+        }
+        int lines = 0;
+        int rows = 0;
+        while((c = wgetch(win)) != 27) {
+                wmove(win, 0, 0);
+                if (c == ' ' || c == KEY_DOWN) {
+                        lines++;
+                }
+                if (c == KEY_UP) {
+                        if (lines > 0) {
+                                lines--;
+                        }
+                }
+                if (c == KEY_RIGHT) {
+                        rows++;
+                }
+                if (c == KEY_LEFT) {
+                        if (rows > 0) {
+                                rows--;
+                        }
+                }
+                if (lines < arr_size - 1) {
+                        fseek(file, arr[lines], SEEK_SET);
+                }
+                for(int i = 0; i < LINES - 2*DY - 2; i++) {
+                        if (lines < arr_size - 1) {
+                                read = getline(&line, &size, file);
+                                if (read > rows) {
+                                        size_t len = COLS - 2*DX-1 < read +1 - rows ? COLS - 2*DX-1 : read + 1- rows;
+                                        memcpy(buf, line + rows, len);
+                                }
+                                if (buf[COLS - 2*DX-3] != 0) {
+                                        buf[COLS - 2*DX-3] = '\n';
+                                        buf[COLS - 2*DX-2] = 0;
+                                }
+                        }
+                        wprintw(win, "%s", buf);
+                        memset(buf, ' ', COLS - 2*DX-3);
+                        buf[COLS - 2*DX-3] = '\n';
+                        buf[COLS - 2*DX-2] = 0;
+                }
+
         }
         delwin(win);
         delwin(frame);
         endwin();
-ERR_FILE:
         fclose(file);
         free(line);
-        return res;
+        free(arr);
+        return 0;
 }
