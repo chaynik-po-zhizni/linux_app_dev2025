@@ -6,7 +6,18 @@
 #define DX 7
 #define DY 3
 
-int main(int argc, char *argv[]) { //uihpiubpiuobpppppppppppppppppppppppppppppgyictyvs
+#define min(a, b) (a) < (b) ? (a) : (b)
+#define WIN_LINES (LINES - 2*DY - 2)
+#define WIN_COLS (COLS - 2*DX-2)
+
+void add_end(char *s, int flag) {
+        if (flag) {
+                s[WIN_COLS - 1] = '\n';
+                s[WIN_COLS] = 0;
+        }
+}
+
+int main(int argc, char *argv[]) { //long long long long long comment for test
         WINDOW *frame, *win;
         int c = 0;
         if (argc != 2) {
@@ -34,13 +45,13 @@ int main(int argc, char *argv[]) { //uihpiubpiuobpppppppppppppppppppppppppppppgy
         mvwaddstr(frame, 0, DX, argv[1]);
         wrefresh(frame);
 
-        win = newwin(LINES - 2*DY - 2, COLS - 2*DX-2, DY+1, DX+1);
+        win = newwin(WIN_LINES, WIN_COLS, DY+1, DX+1);
         keypad(win, TRUE);
         scrollok(win, FALSE);
-        char buf[COLS - 2*DX-1];
-        memset(buf, ' ', COLS - 2*DX-3);
-        buf[COLS - 2*DX-3] = '\n';
-        buf[COLS - 2*DX-2] = 0;
+
+        char buf[WIN_COLS + 1];
+        memset(buf, ' ', WIN_COLS - 1);
+        add_end(buf, 1);
         char *line = NULL;
         size_t size = 0;
         int read;
@@ -54,11 +65,8 @@ int main(int argc, char *argv[]) { //uihpiubpiuobpppppppppppppppppppppppppppppgy
                 arr = realloc(arr, sizeof(int) * arr_size);
                 arr[arr_size - 1] = file_size;
                 file_size += read;
-                if (read > COLS - 2*DX-2) {
-                        line[COLS - 2*DX-3] = '\n';
-                        line[COLS - 2*DX-2] = 0;
-                }
-                if (arr_size < LINES - 2*DY - 1) {
+                add_end(line, read > WIN_COLS);
+                if (arr_size < WIN_LINES + 1) {
                         wprintw(win, "%s", line);
                 }
                 arr_size++;
@@ -86,22 +94,18 @@ int main(int argc, char *argv[]) { //uihpiubpiuobpppppppppppppppppppppppppppppgy
                 if (lines < arr_size - 1) {
                         fseek(file, arr[lines], SEEK_SET);
                 }
-                for(int i = 0; i < LINES - 2*DY - 2; i++) {
+                for(int i = 0; i < WIN_LINES; i++) {
                         if (lines < arr_size - 1) {
                                 read = getline(&line, &size, file);
                                 if (read > rows) {
-                                        size_t len = COLS - 2*DX-1 < read +1 - rows ? COLS - 2*DX-1 : read + 1- rows;
+                                        size_t len = min(WIN_COLS + 1, read + 1 - rows);
                                         memcpy(buf, line + rows, len);
                                 }
-                                if (buf[COLS - 2*DX-3] != 0) {
-                                        buf[COLS - 2*DX-3] = '\n';
-                                        buf[COLS - 2*DX-2] = 0;
-                                }
+                                add_end(buf, buf[WIN_COLS - 1] != 0);
                         }
                         wprintw(win, "%s", buf);
-                        memset(buf, ' ', COLS - 2*DX-3);
-                        buf[COLS - 2*DX-3] = '\n';
-                        buf[COLS - 2*DX-2] = 0;
+                        memset(buf, ' ', WIN_COLS - 1);
+                        add_end(buf, 1);
                 }
 
         }
