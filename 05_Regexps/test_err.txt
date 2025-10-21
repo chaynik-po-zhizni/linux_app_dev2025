@@ -1,0 +1,1 @@
+'(regular) (express)ion(s?)' 'to \2 emotion\3 \1ly \5' 'Learn regular expressions!'
