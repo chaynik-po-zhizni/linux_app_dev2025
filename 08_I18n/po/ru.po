@@ -1,0 +1,76 @@
+# Russian translations for stupid package.
+# Copyright (C) 2025 THE stupid'S COPYRIGHT HOLDER
+# This file is distributed under the same license as the stupid package.
+# Vera <blabla@mail.ru>, 2025.
+#
+msgid ""
+msgstr ""
+"Project-Id-Version: stupid 1.0\n"
+"Report-Msgid-Bugs-To: blabla@mail.ru\n"
+"POT-Creation-Date: 2025-11-24 04:42+0300\n"
+"PO-Revision-Date: 2025-11-18 03:31+0300\n"
+"Last-Translator: Vera <blabla@mail.ru>\n"
+"Language-Team: Russian <gnu@d07.ru>\n"
+"Language: ru\n"
+"MIME-Version: 1.0\n"
+"Content-Type: text/plain; charset=UTF-8\n"
+"Content-Transfer-Encoding: 8bit\n"
+"Plural-Forms: nplurals=3; plural=(n%10==1 && n%100!=11 ? 0 : n%10>=2 && "
+"n%10<=4 && (n%100<10 || n%100>=20) ? 1 : 2);\n"
+
+#: src/stupid_guessor.c:19
+#, c-format
+msgid "Think of a number between 1 and 100\n"
+msgstr "Задумайте число от 1 до 100\n"
+
+#: src/stupid_guessor.c:29
+#, c-format
+msgid "Is your number greater than %d? (Yes/No)\n"
+msgstr "Задуманное Вами число больше чем %d (Да/Нет)\n"
+
+#: src/stupid_guessor.c:35
+#, c-format
+msgid "Error: failed getline\n"
+msgstr "Ошибка: функция getline не смогла считать ввод\n"
+
+#: src/stupid_guessor.c:42
+msgid "Yes"
+msgstr "Да"
+
+#: src/stupid_guessor.c:42
+msgid "Y"
+msgstr "Д"
+
+#: src/stupid_guessor.c:42
+msgid "yes"
+msgstr "да"
+
+#: src/stupid_guessor.c:42
+msgid "y"
+msgstr "д"
+
+#: src/stupid_guessor.c:45
+msgid "No"
+msgstr "Нет"
+
+#: src/stupid_guessor.c:45
+msgid "N"
+msgstr "Н"
+
+#: src/stupid_guessor.c:45
+msgid "no"
+msgstr "нет"
+
+#: src/stupid_guessor.c:45
+msgid "n"
+msgstr "н"
+
+#: src/stupid_guessor.c:49
+#, c-format
+msgid "Error: please answer 'Yes' or 'No'\n"
+msgstr "Ошибка: возможные ответы только 'Да' или 'Нет'\n"
+
+#: src/stupid_guessor.c:54
+#, c-format
+msgid "Your number is %d!\n"
+msgstr "Задуманное Вами число это %d!\n"
