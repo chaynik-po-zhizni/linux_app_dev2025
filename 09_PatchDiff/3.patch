@@ -1,0 +1,49 @@
+--- labyrinth2.c	2025-11-26 02:39:08.178837693 +0300
++++ labyrinth3.c	2025-11-26 02:39:08.615837104 +0300
+@@ -2,7 +2,6 @@
+ #include <stdio.h>
+ #include <stdlib.h>
+ #include <string.h>
+-#include <time.h> 
+ #include <errno.h>
+ 
+ 
+@@ -152,29 +151,28 @@
+ }
+ 
+ int main(int argc, char *argv[]) {
+-	if (argc != 3) {
++	if (argc != 4) {
+ 		if (argc > 1) {
+-			fprintf(stderr, "Error: use %s '<passage char><wall char>' <labyrinth size>\n", argv[0]);
++			fprintf(stderr, "Error: use %s <random seed> '<passage char><wall char>' <labyrinth size>\n", argv[0]);
+ 		} else {
+-			fprintf(stderr, "Error: use params '<passage char><wall char>' <labyrinth size>\n");
++			fprintf(stderr, "Error: use params <random seed> '<passage char><wall char>' <labyrinth size>\n");
+ 		}
+ 		exit(1);
+ 	}
+ 
+-	if (strlen(argv[1]) != 2) {
++	int random_seed = parseint(argv[1], "random seed");
++	if (strlen(argv[2]) != 2) {
+ 		fprintf(stderr, "Error: first param should be string with length == 2\n");
+ 		exit(1);
+ 	}
+-
+-	int maze_size = parseint(argv[2], "labyrinth size");
++	int maze_size = parseint(argv[3], "labyrinth size");
+ 	
+-	// srand(time(NULL)); 
+-	srand(19978); 
++	srand(random_seed); 
+ 	int size = maze_size * 2 + 1; 
+ 
+ 	Maze maze;
+-	maze.wall = argv[1][1];
+-	maze.passage = argv[1][0];
++	maze.wall = argv[2][1];
++	maze.passage = argv[2][0];
+ 	maze.size = size;
+ 	maze.cells = malloc(maze.size * maze.size * sizeof(Cell));
+ 	if (maze.cells == NULL) {

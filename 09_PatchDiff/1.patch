@@ -1,0 +1,44 @@
+--- labyrinth0.c	2025-11-26 02:39:07.693838351 +0300
++++ labyrinth1.c	2025-11-26 02:39:07.851838137 +0300
+@@ -3,6 +3,7 @@
+ #include <stdlib.h>
+ #include <string.h>
+ #include <time.h> 
++#include <errno.h>
+ 
+ 
+ #define SIZE 6
+@@ -138,10 +139,31 @@
+ 	printf("\n");
+ }
+ 
+-int main() {
++int parseint(char *s, const char *name) {
++	char* endptr = NULL; 
++	int result = strtol(s, &endptr, 10);
++	if (*endptr != '\0' || errno == ERANGE) {
++		fprintf(stderr, "Error parse parameter: %s\n", name);
++		exit(1);
++	}
++	return result;
++}
++
++int main(int argc, char *argv[]) {
++	if (argc != 2) {
++		if (argc > 1) {
++			fprintf(stderr, "Error: use %s <labyrinth size>\n", argv[0]);
++		} else {
++			fprintf(stderr, "Error: use param <labyrinth size>\n");
++		}
++		exit(1);
++	}
++
++	int maze_size = parseint(argv[1], "labyrinth size");
++
+ 	// srand(time(NULL)); 
+ 	srand(19978); 
+-	int size = SIZE * 2 + 1; 
++	int size = maze_size * 2 + 1; 
+ 
+ 	Maze maze;
+ 	maze.size = size;

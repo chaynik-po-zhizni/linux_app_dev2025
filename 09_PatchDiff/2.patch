@@ -1,0 +1,89 @@
+--- labyrinth1.c	2025-11-26 02:39:07.851838137 +0300
++++ labyrinth2.c	2025-11-26 02:39:08.178837693 +0300
+@@ -16,6 +16,8 @@
+ typedef struct {
+ 	Cell *cells;
+ 	int size;
++	char passage;
++	char wall;
+ } Maze;
+ 
+ #define MATRIX(arr, i, j) (arr)->cells[(i) * ((arr)->size) + (j)]
+@@ -27,9 +29,9 @@
+ 	for (int i = 0; i < maze->size; i++) {
+ 		for (int j = 0; j < maze->size; j++) {
+ 			if (i % 2 == 0 || j % 2 == 0) {
+-				MAZE_CELL_TYPE(maze, i, j) = '#';
++				MAZE_CELL_TYPE(maze, i, j) = maze->wall;
+ 			} else {
+-				MAZE_CELL_TYPE(maze, i, j) = '.';
++				MAZE_CELL_TYPE(maze, i, j) = maze->passage;
+ 			}
+ 			if (i == 0 || j == 0 || i == maze->size - 1 || j == maze->size - 1) {
+ 				MAZE_CELL_VAL(maze, i, j) = 1;
+@@ -87,7 +89,7 @@
+ 		if (MAZE_CELL_VAL(maze, line + 1, i) == 1) {
+ 			MAZE_CELL_VAL(maze, line + 1, i - 1) = 1;
+ 		}
+-		if (MAZE_CELL_TYPE(maze, line, i) == '#' && MAZE_CELL_VAL(maze, line, i) == 1) {
++		if (MAZE_CELL_TYPE(maze, line, i) == maze->wall && MAZE_CELL_VAL(maze, line, i) == 1) {
+ 			MAZE_CELL_VAL(maze, line + 1, i) = 1;
+ 		}
+ 	}
+@@ -95,7 +97,7 @@
+ 
+ void next_line(Maze *maze, int *counts, int count, int line) {
+ 	for (int i = 1; i < maze->size - 1; i += 1) {
+-		if (MAZE_CELL_TYPE(maze, line - 2, i) == '#') {
++		if (MAZE_CELL_TYPE(maze, line - 2, i) == maze->wall) {
+ 			MAZE_CELL_VAL(maze, line, i) = 0;
+ 		} else {
+ 			if (MAZE_CELL_VAL(maze, line - 1, i) == 1) {
+@@ -150,22 +152,29 @@
+ }
+ 
+ int main(int argc, char *argv[]) {
+-	if (argc != 2) {
++	if (argc != 3) {
+ 		if (argc > 1) {
+-			fprintf(stderr, "Error: use %s <labyrinth size>\n", argv[0]);
++			fprintf(stderr, "Error: use %s '<passage char><wall char>' <labyrinth size>\n", argv[0]);
+ 		} else {
+-			fprintf(stderr, "Error: use param <labyrinth size>\n");
++			fprintf(stderr, "Error: use params '<passage char><wall char>' <labyrinth size>\n");
+ 		}
+ 		exit(1);
+ 	}
+ 
+-	int maze_size = parseint(argv[1], "labyrinth size");
++	if (strlen(argv[1]) != 2) {
++		fprintf(stderr, "Error: first param should be string with length == 2\n");
++		exit(1);
++	}
+ 
++	int maze_size = parseint(argv[2], "labyrinth size");
++	
+ 	// srand(time(NULL)); 
+ 	srand(19978); 
+ 	int size = maze_size * 2 + 1; 
+ 
+ 	Maze maze;
++	maze.wall = argv[1][1];
++	maze.passage = argv[1][0];
+ 	maze.size = size;
+ 	maze.cells = malloc(maze.size * maze.size * sizeof(Cell));
+ 	if (maze.cells == NULL) {
+@@ -195,10 +204,10 @@
+ 
+ 	for (int i = 0; i < maze.size; i++) {
+ 		for (int j = 0; j < maze.size; j++) {
+-			if (MAZE_CELL_TYPE(&maze, i, j) == '#' && MAZE_CELL_VAL(&maze, i, j) == 1) {
+-				printf("%c", '#');
++			if (MAZE_CELL_TYPE(&maze, i, j) == maze.wall && MAZE_CELL_VAL(&maze, i, j) == 1) {
++				printf("%c", maze.wall);
+ 			} else {
+-				printf("%c", '.');
++				printf("%c", maze.passage);
+ 			}
+ 		}
+ 		printf("\n");
