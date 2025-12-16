@@ -1,0 +1,16 @@
+PROJECT_NAME           = "Stupid Guessor"
+OUTPUT_DIRECTORY = @DOXYGEN_OUTPUT_DIRECTORY@
+PROJECT_NUMBER         = @PROJECT_VERSION@
+INPUT                  = @CMAKE_SOURCE_DIR@/src @CMAKE_SOURCE_DIR@/README.md
+FILE_PATTERNS          = *.c *.h *.md
+RECURSIVE              = YES
+EXCLUDE_PATTERNS       = */CMakeFiles/* */build/*
+USE_MDFILE_AS_MAINPAGE = @CMAKE_SOURCE_DIR@/README.md
+GENERATE_HTML          = YES
+HTML_OUTPUT            = html
+GENERATE_LATEX         = NO
+HAVE_DOT               = YES
+CALL_GRAPH             = YES
+CALLER_GRAPH           = YES
+HIDE_UNDOC_MEMBERS     = YES
+HIDE_UNDOC_CLASSES     = YES

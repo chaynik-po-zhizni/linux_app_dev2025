@@ -1,0 +1,88 @@
+# cmake_uninstall.cmake.in
+if(NOT EXISTS "@CMAKE_BINARY_DIR@/install_manifest.txt")
+    message(FATAL_ERROR "Cannot find install manifest: @CMAKE_BINARY_DIR@/install_manifest.txt")
+endif()
+
+file(READ "@CMAKE_BINARY_DIR@/install_manifest.txt" files)
+string(REGEX REPLACE "\n" ";" files "${files}")
+
+foreach(file ${files})
+    message(STATUS "Uninstalling $ENV{DESTDIR}${file}")
+    if(EXISTS "$ENV{DESTDIR}${file}")
+        file(REMOVE "$ENV{DESTDIR}${file}")
+        
+        get_filename_component(dir "$ENV{DESTDIR}${file}" DIRECTORY)
+        
+        while(dir AND EXISTS "${dir}")
+            file(GLOB_RECURSE contents "${dir}/*")
+            list(LENGTH contents contents_length)
+            if(contents_length EQUAL 0)
+                message(STATUS "Removing empty directory: ${dir}")
+                file(REMOVE_RECURSE "${dir}")
+                # Переходим к родительской директории
+                get_filename_component(dir "${dir}" DIRECTORY)
+            else()
+                break()
+            endif()
+        endwhile()
+    else()
+        message(STATUS "File does not exist: $ENV{DESTDIR}${file}")
+    endif()
+endforeach()
+
+message(STATUS "")
+message(STATUS "=== Removing Roman library files ===")
+
+set(PREFIX "$ENV{DESTDIR}@CMAKE_INSTALL_PREFIX@")
+
+set(ROMAN_FILES
+    "${PREFIX}/lib/libroman.so"
+    "${PREFIX}/lib/libroman.so.1"
+    "${PREFIX}/lib/libroman.so.1.0.0"
+    "${PREFIX}/lib/libroman.so.1.0"
+    "${PREFIX}/lib64/libroman.so"
+    "${PREFIX}/lib64/libroman.so.1"
+    "${PREFIX}/lib64/libroman.so.1.0.0"
+    "${PREFIX}/lib64/libroman.so.1.0"
+)
+
+set(LIB_DIRS
+    "${PREFIX}/lib"
+    "${PREFIX}/lib64"
+    "/usr/local/lib"
+    "/usr/local/lib64"
+)
+
+foreach(lib_dir ${LIB_DIRS})
+    if(EXISTS "${lib_dir}")
+        execute_process(
+            COMMAND /bin/sh -c "find '${lib_dir}' -name 'libroman.so*' -type f -o -name 'libroman.so*' -type l 2>/dev/null || true"
+            OUTPUT_VARIABLE found_files
+            OUTPUT_STRIP_TRAILING_WHITESPACE
+        )
+        
+        if(found_files)
+            string(REPLACE "\n" ";" file_list "${found_files}")
+            foreach(file ${file_list})
+                message(STATUS "Removing Roman library: ${file}")
+                execute_process(
+                    COMMAND /bin/rm -f "${file}"
+                    RESULT_VARIABLE rm_result
+                )
+                get_filename_component(dir "${file}" DIRECTORY)
+        
+                if(dir AND EXISTS "${dir}")
+                    file(GLOB_RECURSE contents "${dir}/*")
+                    list(LENGTH contents contents_length)
+                    if(contents_length EQUAL 0)
+                        message(STATUS "Removing empty directory: ${dir}")
+                        file(REMOVE_RECURSE "${dir}")
+                    endif()
+                endif()
+            endforeach()
+        endif()
+    endif()
+endforeach()
+
+message(STATUS "")
+message(STATUS "=== Uninstallation completed ===")

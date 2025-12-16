@@ -1,0 +1,117 @@
+# Russian translations for PACKAGE package.
+# Copyright (C) 2025 THE PACKAGE'S COPYRIGHT HOLDER
+# This file is distributed under the same license as the PACKAGE package.
+# Vera <blabla@mail.ru>, 2025.
+msgid ""
+msgstr ""
+"Project-Id-Version: PACKAGE VERSION\n"
+"Report-Msgid-Bugs-To: \n"
+"POT-Creation-Date: 2025-12-16 04:56+0300\n"
+"PO-Revision-Date: 2025-12-14 04:53+0300\n"
+"Last-Translator: Vera <blabla@mail.ru>\n"
+"Language-Team: Russian <gnu@d07.ru>\n"
+"Language: ru\n"
+"MIME-Version: 1.0\n"
+"Content-Type: text/plain; charset=UTF-8\n"
+"Content-Transfer-Encoding: 8bit\n"
+"Plural-Forms: nplurals=3; plural=(n%10==1 && n%100!=11 ? 0 : n%10>=2 && "
+"n%10<=4 && (n%100<10 || n%100>=20) ? 1 : 2);\n"
+
+#: /home/vasvi/Documents/linux-spec-curse/12/src/stupid_guessor.c:46
+msgid "The program does not accept positional arguments"
+msgstr "Программа не принимает позиционные аргументы"
+
+#: /home/vasvi/Documents/linux-spec-curse/12/src/stupid_guessor.c:60
+msgid "Numbers guesser."
+msgstr "Угадыватель чисел"
+
+#: /home/vasvi/Documents/linux-spec-curse/12/src/stupid_guessor.c:63
+msgid "Usage:"
+msgstr "Использование:"
+
+#: /home/vasvi/Documents/linux-spec-curse/12/src/stupid_guessor.c:64
+msgid "Give this help list"
+msgstr "Выдать эту информацию"
+
+#: /home/vasvi/Documents/linux-spec-curse/12/src/stupid_guessor.c:65
+msgid "Give a short usage message"
+msgstr "Выдать короткое сообщение об использование"
+
+#: /home/vasvi/Documents/linux-spec-curse/12/src/stupid_guessor.c:66
+msgid "Print program version"
+msgstr "Напечатать версию программы"
+
+#: /home/vasvi/Documents/linux-spec-curse/12/src/stupid_guessor.c:73
+msgid "Use roman numbers"
+msgstr "Использовать римские цифры"
+
+#: /home/vasvi/Documents/linux-spec-curse/12/src/stupid_guessor.c:80
+msgid "Use extended guessing range numbers"
+msgstr "Использовать расширенный диапазон чисел"
+
+#: /home/vasvi/Documents/linux-spec-curse/12/src/stupid_guessor.c:121
+#, c-format
+msgid "Error: inappropriate boundaries for using Roman numbers\n"
+msgstr "Ошибка: неподходящие границы для использования римских цифр\n"
+
+#: /home/vasvi/Documents/linux-spec-curse/12/src/stupid_guessor.c:126
+#, c-format
+msgid "Error: inappropriate boundaries\n"
+msgstr "Ошибка: неподходящие границы\n"
+
+#: /home/vasvi/Documents/linux-spec-curse/12/src/stupid_guessor.c:131
+#, c-format
+msgid "Think of a number between %s and "
+msgstr "Задумайте число между %s и "
+
+#: /home/vasvi/Documents/linux-spec-curse/12/src/stupid_guessor.c:141
+#, c-format
+msgid "Is your number greater than %s? (Yes/No)\n"
+msgstr "Ваше число больше чем %s? (Да/Нет)\n"
+
+#: /home/vasvi/Documents/linux-spec-curse/12/src/stupid_guessor.c:147
+#, c-format
+msgid "Error: failed getline\n"
+msgstr "Ошибка: getline завершилась с ошибкой\n"
+
+#: /home/vasvi/Documents/linux-spec-curse/12/src/stupid_guessor.c:153
+msgid "Yes"
+msgstr "Да"
+
+#: /home/vasvi/Documents/linux-spec-curse/12/src/stupid_guessor.c:153
+msgid "Y"
+msgstr "Д"
+
+#: /home/vasvi/Documents/linux-spec-curse/12/src/stupid_guessor.c:153
+msgid "yes"
+msgstr "да"
+
+#: /home/vasvi/Documents/linux-spec-curse/12/src/stupid_guessor.c:153
+msgid "y"
+msgstr "д"
+
+#: /home/vasvi/Documents/linux-spec-curse/12/src/stupid_guessor.c:156
+msgid "No"
+msgstr "Нет"
+
+#: /home/vasvi/Documents/linux-spec-curse/12/src/stupid_guessor.c:156
+msgid "N"
+msgstr "Н"
+
+#: /home/vasvi/Documents/linux-spec-curse/12/src/stupid_guessor.c:156
+msgid "no"
+msgstr "нет"
+
+#: /home/vasvi/Documents/linux-spec-curse/12/src/stupid_guessor.c:156
+msgid "n"
+msgstr "н"
+
+#: /home/vasvi/Documents/linux-spec-curse/12/src/stupid_guessor.c:160
+#, c-format
+msgid "Error: please answer 'Yes' or 'No'\n"
+msgstr "Ошибка: пожалуйста, ответьте 'Да' или 'Нет'\n"
+
+#: /home/vasvi/Documents/linux-spec-curse/12/src/stupid_guessor.c:166
+#, c-format
+msgid "Your number is %s!\n"
+msgstr "Ваше число это %s!\n"
